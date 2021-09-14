@@ -36,7 +36,7 @@ using (Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Widt
             Color currentColor = bitmap.GetPixel(y, x);
             if (colorToIgnore != default)
             {
-                if (currentColor.R != colorToIgnore.R && currentColor.G != colorToIgnore.G && currentColor.B != colorToIgnore.B)
+                if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
                 {
                     initialHexes[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
                 }
