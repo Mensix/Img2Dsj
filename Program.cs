@@ -10,7 +10,11 @@ using Img2Dsj;
 using MoreLinq;
 
 Settings settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "settings.json")));
-Color colorToIgnore = ColorTranslator.FromHtml(settings.ColorToIgnore);
+Color colorToIgnore = new();
+if (settings.ColorToIgnore != null)
+{
+    colorToIgnore = ColorTranslator.FromHtml(settings.ColorToIgnore);
+}
 XmlWriter xmlWriter = XmlWriter.Create("output.txt", new()
 {
     Indent = true,
@@ -30,13 +34,20 @@ using (Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Widt
         for (int y = 0; y < bitmap.Width; y++)
         {
             Color currentColor = bitmap.GetPixel(y, x);
-            if (currentColor.R != colorToIgnore.R && currentColor.G != colorToIgnore.G && currentColor.B != colorToIgnore.B)
+            if (colorToIgnore != default)
             {
-                initialHexes[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
+                if (currentColor.R != colorToIgnore.R && currentColor.G != colorToIgnore.G && currentColor.B != colorToIgnore.B)
+                {
+                    initialHexes[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
+                }
+                else
+                {
+                    initialHexes[x].Add(null);
+                }
             }
             else
             {
-                initialHexes[x].Add(null);
+                initialHexes[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
             }
         }
     }
@@ -52,7 +63,7 @@ using (Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Widt
 
     for (int x = 0; x < hexes.Count; x++)
     {
-        string _y0 = Convert.ToDecimal(y0).ToString(CultureInfo.InvariantCulture);
+        string _y0 = y0.ToString(CultureInfo.InvariantCulture);
         for (int y = 0; y < hexes[x].Count; y++)
         {
             if (hexes[x][y].All(x => x == null))
@@ -61,11 +72,10 @@ using (Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Widt
                 continue;
             }
 
-            xmlWriter.WriteComment($"d: {_y0}");
             xmlWriter.WriteStartElement("line");
             xmlWriter.WriteAttributeString("d", _y0);
-            xmlWriter.WriteAttributeString("z1", Convert.ToDecimal(x0).ToString(CultureInfo.InvariantCulture));
-            xmlWriter.WriteAttributeString("z2", Convert.ToDecimal(x0 + (settings.PixelSize * hexes[x][y].Count)).ToString(CultureInfo.InvariantCulture));
+            xmlWriter.WriteAttributeString("z1", x0.ToString(CultureInfo.InvariantCulture));
+            xmlWriter.WriteAttributeString("z2", (x0 + (settings.PixelSize * hexes[x][y].Count)).ToString(CultureInfo.InvariantCulture));
             xmlWriter.WriteAttributeString("c", hexes[x][y][0]);
             xmlWriter.WriteAttributeString("w", settings.PixelSize.ToString(CultureInfo.InvariantCulture));
             xmlWriter.WriteEndElement();
