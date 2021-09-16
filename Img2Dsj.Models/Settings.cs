@@ -1,7 +1,7 @@
 using System.Drawing;
 using System.Text.Json.Serialization;
 
-namespace Img2Dsj
+namespace Img2Dsj.Models
 {
     public class Settings
     {
