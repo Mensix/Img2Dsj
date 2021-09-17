@@ -16,6 +16,7 @@ namespace Img2Dsj.Utils
             Marking marking = new();
             bool shouldGenerateSummer = settings.TagsToInclude.Contains("summer");
             bool shouldGenerateWinter = settings.TagsToInclude.Contains("winter");
+            bool shouldGenerateTwigs = settings.WinterMode == "twigs";
 
             if (shouldGenerateSummer)
             {
@@ -24,12 +25,23 @@ namespace Img2Dsj.Utils
                     Lines = new List<Line>()
                 };
             }
+
             if (shouldGenerateWinter)
             {
-                marking.Winter = new()
+                if (!shouldGenerateTwigs)
                 {
-                    Sprays = new List<Spray>()
-                };
+                    marking.Winter = new()
+                    {
+                        Sprays = new List<Spray>()
+                    };
+                }
+                else
+                {
+                    marking.Winter = new()
+                    {
+                        Twigs = new List<Twigs>()
+                    };
+                }
             }
 
             XmlWriterSettings xmlWriterSettings = new()
@@ -65,14 +77,26 @@ namespace Img2Dsj.Utils
                     }
                     if (shouldGenerateWinter)
                     {
-                        marking.Winter.Sprays.Add(new Spray
+                        if (!shouldGenerateTwigs)
                         {
-                            D = Math.Round(y0, 2),
-                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
-                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 2),
-                            C = pixels[i][j][0],
-                            W = Math.Round(settings.PixelSize * 3, 2)
-                        });
+                            marking.Winter.Sprays.Add(new Spray
+                            {
+                                D = Math.Round(y0, 2),
+                                Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
+                                Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 2),
+                                C = pixels[i][j][0],
+                                W = Math.Round(settings.PixelSize * 3, 2)
+                            });
+                        }
+                        else
+                        {
+                            marking.Winter.Twigs.Add(new Twigs
+                            {
+                                D = Math.Round(y0, 2),
+                                Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
+                                Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 2),
+                            });
+                        }
                     }
 
                     x0 += settings.PixelSize * pixels[i][j].Count;

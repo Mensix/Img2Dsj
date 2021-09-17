@@ -19,6 +19,16 @@ namespace Img2Dsj.Models
 
     public class Spray : Line { }
 
+    public class Twigs
+    {
+        [XmlAttribute("d")]
+        public double D { get; set; }
+        [XmlAttribute("z1")]
+        public double Z1 { get; set; }
+        [XmlAttribute("z2")]
+        public double Z2 { get; set; }
+    }
+
     [XmlRoot("summer")]
     public class Summer
     {
@@ -31,6 +41,8 @@ namespace Img2Dsj.Models
     {
         [XmlElement("spray")]
         public List<Spray> Sprays { get; set; }
+        [XmlElement("twigs")]
+        public List<Twigs> Twigs { get; set; }
     }
 
     [XmlRoot("custom-markings")]

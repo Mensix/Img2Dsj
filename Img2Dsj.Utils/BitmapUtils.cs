@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using Img2Dsj.Models;
-using Img2Dsj.Utils;
 
 namespace Img2Dsj.Utils
 {
@@ -43,20 +42,34 @@ namespace Img2Dsj.Utils
                 for (int y = 0; y < bitmap.Width; y++)
                 {
                     Color currentColor = bitmap.GetPixel(y, x);
-                    if (colorToIgnore != default)
+                    if (settings.WinterMode != "twigs")
                     {
-                        if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
+                        if (colorToIgnore != default)
+                        {
+                            if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
+                            {
+                                initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
+                            }
+                            else
+                            {
+                                initialPixels[x].Add(null);
+                            }
+                        }
+                        else
                         {
                             initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
+                        }
+                    }
+                    else
+                    {
+                        if (colorToIgnore != default && !colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
+                        {
+                            initialPixels[x].Add("0x000000");
                         }
                         else
                         {
                             initialPixels[x].Add(null);
                         }
-                    }
-                    else
-                    {
-                        initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
                     }
                 }
             }
