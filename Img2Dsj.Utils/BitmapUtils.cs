@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using Img2Dsj.Models;
+using Img2Dsj.Utils;
 
 namespace Img2Dsj.Utils
 {
@@ -65,7 +66,7 @@ namespace Img2Dsj.Utils
 
         public static (double, double) GetOriginCoordinates(Bitmap bitmap, Settings settings)
         {
-            return (-bitmap.Width / (2 / settings.PixelSize), Math.Abs((bitmap.Height / (2 / settings.PixelSize)) - settings.OriginDistance));
+            return (-bitmap.Width / (2 / settings.PixelSize), Math.Abs((bitmap.Height / (2 / settings.PixelSize)) - settings.OriginDistance.X));
         }
     }
 }

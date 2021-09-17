@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
+using Img2Dsj.Img2Dsj.Utils;
 using Img2Dsj.Models;
 
 namespace Img2Dsj.Utils
@@ -12,17 +13,24 @@ namespace Img2Dsj.Utils
     {
         public static void GenerateMarkings(Bitmap bitmap, Settings settings)
         {
-            Marking marking = new()
+            Marking marking = new();
+            bool shouldGenerateSummer = settings.TagsToInclude.Contains("summer");
+            bool shouldGenerateWinter = settings.TagsToInclude.Contains("winter");
+
+            if (shouldGenerateSummer)
             {
-                Summer = new()
+                marking.Summer = new()
                 {
-                    Lines = new List<Line>(),
-                },
-                Winter = new()
+                    Lines = new List<Line>()
+                };
+            }
+            if (shouldGenerateWinter)
+            {
+                marking.Winter = new()
                 {
                     Sprays = new List<Spray>()
-                }
-            };
+                };
+            }
 
             XmlWriterSettings xmlWriterSettings = new()
             {
@@ -44,22 +52,29 @@ namespace Img2Dsj.Utils
                         continue;
                     }
 
-                    marking.Summer.Lines.Add(new Line
+                    if (shouldGenerateSummer)
                     {
-                        D = y0,
-                        Z1 = x0,
-                        Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
-                        C = pixels[i][j][0],
-                        W = settings.PixelSize
-                    });
-                    marking.Winter.Sprays.Add(new Spray
+                        marking.Summer.Lines.Add(new Line
+                        {
+                            D = y0,
+                            Z1 = x0,
+                            Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
+                            C = pixels[i][j][0],
+                            W = settings.PixelSize
+                        });
+                    }
+                    if (shouldGenerateWinter)
                     {
-                        D = y0,
-                        Z1 = x0,
-                        Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
-                        C = pixels[i][j][0],
-                        W = settings.PixelSize
-                    });
+                        marking.Winter.Sprays.Add(new Spray
+                        {
+                            D = y0,
+                            Z1 = x0,
+                            Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
+                            C = pixels[i][j][0],
+                            W = settings.PixelSize
+                        });
+                    }
+
                     x0 += settings.PixelSize * pixels[i][j].Count;
                 }
 

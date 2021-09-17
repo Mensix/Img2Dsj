@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Text.Json.Serialization;
 
 namespace Img2Dsj.Models
@@ -12,8 +11,18 @@ namespace Img2Dsj.Models
         [JsonPropertyName("scalingFactor")]
         public int ScalingFactor { get; set; }
         [JsonPropertyName("originDistance")]
-        public int OriginDistance { get; set; }
-        [JsonPropertyName("colorToIgnore")]
+        public OriginDistance OriginDistance { get; set; }
+        [JsonPropertyName("ignoreColor")]
         public string ColorToIgnore { get; set; }
+        [JsonPropertyName("includeTags")]
+        public string[] TagsToInclude { get; set; }
+    }
+
+    public class OriginDistance
+    {
+        [JsonPropertyName("x")]
+        public float X { get; set; }
+        [JsonPropertyName("z")]
+        public float Z { get; set; }
     }
 }
