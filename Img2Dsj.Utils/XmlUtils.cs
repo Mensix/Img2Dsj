@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Img2Dsj.Img2Dsj.Utils;
 using Img2Dsj.Models;
 
 namespace Img2Dsj.Utils
@@ -56,9 +56,9 @@ namespace Img2Dsj.Utils
                     {
                         marking.Summer.Lines.Add(new Line
                         {
-                            D = y0,
-                            Z1 = x0,
-                            Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
+                            D = Math.Round(y0, 2),
+                            Z1 = Math.Round(x0, 2),
+                            Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 2),
                             C = pixels[i][j][0],
                             W = settings.PixelSize
                         });
@@ -67,11 +67,11 @@ namespace Img2Dsj.Utils
                     {
                         marking.Winter.Sprays.Add(new Spray
                         {
-                            D = y0,
-                            Z1 = x0,
-                            Z2 = x0 + (settings.PixelSize * pixels[i][j].Count),
+                            D = Math.Round(y0, 2),
+                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
+                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 2),
                             C = pixels[i][j][0],
-                            W = settings.PixelSize
+                            W = Math.Round(settings.PixelSize * 3, 2)
                         });
                     }
 
