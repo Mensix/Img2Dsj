@@ -82,6 +82,8 @@ namespace Img2Dsj.Utils
                     x0 = -bitmap.Width / (2 / settings.PixelSize);
                     y0 += settings.PixelSize;
                 }
+
+                (x0, y0) = BitmapUtils.GetOriginCoordinates(bitmap, settings);
             }
 
             if (settings.TagsToInclude.Contains("twigs"))
