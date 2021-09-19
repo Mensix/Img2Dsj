@@ -16,8 +16,6 @@ namespace Img2Dsj.Models
         public string ColorToIgnore { get; set; }
         [JsonPropertyName("includeTags")]
         public string[] TagsToInclude { get; set; }
-        [JsonPropertyName("winterMode")]
-        public string WinterMode { get; set; }
     }
 
     public class OriginDistance

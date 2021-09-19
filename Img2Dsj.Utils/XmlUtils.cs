@@ -13,12 +13,10 @@ namespace Img2Dsj.Utils
     {
         public static void GenerateMarkings(Bitmap bitmap, Settings settings)
         {
+            List<List<string>> initialPixels = BitmapUtils.ParsePixels(bitmap, settings);
             Marking marking = new();
-            bool shouldGenerateSummer = settings.TagsToInclude.Contains("summer");
-            bool shouldGenerateWinter = settings.TagsToInclude.Contains("winter");
-            bool shouldGenerateTwigs = settings.WinterMode == "twigs";
 
-            if (shouldGenerateSummer)
+            if (settings.TagsToInclude.Contains("line"))
             {
                 marking.Summer = new()
                 {
@@ -26,22 +24,19 @@ namespace Img2Dsj.Utils
                 };
             }
 
-            if (shouldGenerateWinter)
+            if (settings.TagsToInclude.Contains("spray"))
             {
-                if (!shouldGenerateTwigs)
+                marking.Winter = new()
                 {
-                    marking.Winter = new()
-                    {
-                        Sprays = new List<Spray>()
-                    };
-                }
-                else
+                    Sprays = new List<Spray>()
+                };
+            }
+            else if (settings.TagsToInclude.Contains("twigs"))
+            {
+                marking.Winter = new()
                 {
-                    marking.Winter = new()
-                    {
-                        Twigs = new List<Twigs>()
-                    };
-                }
+                    Twigs = new List<Twigs>()
+                };
             }
 
             XmlWriterSettings xmlWriterSettings = new()
@@ -52,32 +47,33 @@ namespace Img2Dsj.Utils
             XmlSerializer xmlSerializer = new(typeof(Marking));
 
             (double x0, double y0) = BitmapUtils.GetOriginCoordinates(bitmap, settings);
-            List<List<List<string>>> pixels = BitmapUtils.ParsePixels(bitmap, settings);
+            List<List<List<string>>> pixels = initialPixels.MergeSamePixels();
+            List<List<List<string>>> monocoloredPixels = BitmapUtils.ParseMonocolorPixels(initialPixels).MergeSamePixels();
 
-            for (int i = 0; i < pixels.Count; i++)
+            if (settings.TagsToInclude.Contains("line") || settings.TagsToInclude.Contains("spray"))
             {
-                for (int j = 0; j < pixels[i].Count; j++)
+                for (int i = 0; i < pixels.Count; i++)
                 {
-                    if (pixels[i][j].All(x => x == null))
+                    for (int j = 0; j < pixels[i].Count; j++)
                     {
-                        x0 += settings.PixelSize * pixels[i][j].Count;
-                        continue;
-                    }
-
-                    if (shouldGenerateSummer)
-                    {
-                        marking.Summer.Lines.Add(new Line
+                        if (pixels[i][j].All(x => x == null))
                         {
-                            D = Math.Round(y0, 2),
-                            Z1 = Math.Round(x0, 2),
-                            Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 2),
-                            C = pixels[i][j][0],
-                            W = settings.PixelSize
-                        });
-                    }
-                    if (shouldGenerateWinter)
-                    {
-                        if (!shouldGenerateTwigs)
+                            x0 += settings.PixelSize * pixels[i][j].Count;
+                            continue;
+                        }
+
+                        if (settings.TagsToInclude.Contains("line"))
+                        {
+                            marking.Summer.Lines.Add(new Line
+                            {
+                                D = Math.Round(y0, 2),
+                                Z1 = Math.Round(x0, 2),
+                                Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 2),
+                                C = pixels[i][j][0],
+                                W = settings.PixelSize
+                            });
+                        }
+                        if (settings.TagsToInclude.Contains("spray"))
                         {
                             marking.Winter.Sprays.Add(new Spray
                             {
@@ -88,22 +84,38 @@ namespace Img2Dsj.Utils
                                 W = Math.Round(settings.PixelSize * 3, 2)
                             });
                         }
-                        else
-                        {
-                            marking.Winter.Twigs.Add(new Twigs
-                            {
-                                D = Math.Round(y0, 2),
-                                Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
-                                Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 2),
-                            });
-                        }
+                        x0 += settings.PixelSize * pixels[i][j].Count;
                     }
 
-                    x0 += settings.PixelSize * pixels[i][j].Count;
+                    x0 = -bitmap.Width / (2 / settings.PixelSize);
+                    y0 += settings.PixelSize;
                 }
+            }
 
-                x0 = -bitmap.Width / (2 / settings.PixelSize);
-                y0 += settings.PixelSize;
+            if (settings.TagsToInclude.Contains("twigs"))
+            {
+                for (int i = 0; i < monocoloredPixels.Count; i++)
+                {
+                    for (int j = 0; j < monocoloredPixels[i].Count; j++)
+                    {
+                        if (monocoloredPixels[i][j].All(x => x == null))
+                        {
+                            x0 += settings.PixelSize * monocoloredPixels[i][j].Count;
+                            continue;
+                        }
+
+                        marking.Winter.Twigs.Add(new Twigs
+                        {
+                            D = Math.Round(y0, 2),
+                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
+                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * monocoloredPixels[i][j].Count), 2),
+                        });
+                        x0 += settings.PixelSize * monocoloredPixels[i][j].Count;
+                    }
+
+                    x0 = -bitmap.Width / (2 / settings.PixelSize);
+                    y0 += settings.PixelSize;
+                }
             }
 
             using StreamWriter streamWriter = new("output.txt");

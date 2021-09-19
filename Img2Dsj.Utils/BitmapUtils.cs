@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Linq;
 using Img2Dsj.Models;
 
 namespace Img2Dsj.Utils
@@ -31,7 +32,7 @@ namespace Img2Dsj.Utils
             return bitmap;
         }
 
-        public static List<List<List<string>>> ParsePixels(Bitmap bitmap, Settings settings)
+        public static List<List<string>> ParsePixels(Bitmap bitmap, Settings settings)
         {
             List<List<string>> initialPixels = new();
             Color colorToIgnore = ColorTranslator.FromHtml(settings.ColorToIgnore);
@@ -42,39 +43,43 @@ namespace Img2Dsj.Utils
                 for (int y = 0; y < bitmap.Width; y++)
                 {
                     Color currentColor = bitmap.GetPixel(y, x);
-                    if (settings.WinterMode != "twigs")
+                    if (colorToIgnore != default)
                     {
-                        if (colorToIgnore != default)
-                        {
-                            if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
-                            {
-                                initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
-                            }
-                            else
-                            {
-                                initialPixels[x].Add(null);
-                            }
-                        }
-                        else
+                        if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
                         {
                             initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
-                        }
-                    }
-                    else
-                    {
-                        if (colorToIgnore != default && !colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
-                        {
-                            initialPixels[x].Add("0x000000");
                         }
                         else
                         {
                             initialPixels[x].Add(null);
                         }
                     }
+                    else
+                    {
+                        initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
+                    }
                 }
             }
 
-            return PixelUtils.MergeSamePixels(initialPixels);
+            return initialPixels;
+        }
+
+        public static List<List<string>> ParseMonocolorPixels(List<List<string>> initialPixels)
+        {
+            List<List<string>> monocolorPixels = new();
+            foreach (List<string> pixels in initialPixels)
+            {
+                monocolorPixels.Add(pixels.ConvertAll(x =>
+                {
+                    if (x != null)
+                    {
+                        x = "0x000000";
+                    }
+                    return x;
+                }));
+            }
+
+            return monocolorPixels;
         }
 
         public static (double, double) GetOriginCoordinates(Bitmap bitmap, Settings settings)
