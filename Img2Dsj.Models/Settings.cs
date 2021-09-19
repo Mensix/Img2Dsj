@@ -4,25 +4,17 @@ namespace Img2Dsj.Models
 {
     public class Settings
     {
-        [JsonPropertyName("fileName")]
         public string FileName { get; set; }
-        [JsonPropertyName("pixelSize")]
-        public double PixelSize { get; set; }
-        [JsonPropertyName("scalingFactor")]
-        public int ScalingFactor { get; set; }
-        [JsonPropertyName("originDistance")]
+        public double PixelSize { get; set; } = 0.1;
+        public int ScalingFactor { get; set; } = 5;
         public OriginDistance OriginDistance { get; set; }
-        [JsonPropertyName("ignoreColor")]
-        public string ColorToIgnore { get; set; }
-        [JsonPropertyName("includeTags")]
+        public string[] ColorsToIgnore { get; set; }
         public string[] TagsToInclude { get; set; }
     }
 
     public class OriginDistance
     {
-        [JsonPropertyName("x")]
-        public float X { get; set; }
-        [JsonPropertyName("z")]
-        public float Z { get; set; }
+        public float X { get; set; } = 50;
+        public float Z { get; set; } = 0;
     }
 }

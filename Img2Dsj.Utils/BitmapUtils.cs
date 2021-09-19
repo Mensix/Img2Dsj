@@ -35,7 +35,7 @@ namespace Img2Dsj.Utils
         public static List<List<string>> ParsePixels(Bitmap bitmap, Settings settings)
         {
             List<List<string>> initialPixels = new();
-            Color colorToIgnore = ColorTranslator.FromHtml(settings.ColorToIgnore);
+            List<Color> colorsToIgnore = settings.ColorsToIgnore.Select(x => ColorTranslator.FromHtml(x)).ToList();
 
             for (int x = 0; x < bitmap.Height; x++)
             {
@@ -43,9 +43,9 @@ namespace Img2Dsj.Utils
                 for (int y = 0; y < bitmap.Width; y++)
                 {
                     Color currentColor = bitmap.GetPixel(y, x);
-                    if (colorToIgnore != default)
+                    if (colorsToIgnore != default)
                     {
-                        if (!colorToIgnore.ToArgb().Equals(currentColor.ToArgb()))
+                        if (!colorsToIgnore.Select(x => x.ToArgb()).Any(x => x.Equals(currentColor.ToArgb())))
                         {
                             initialPixels[x].Add($"0x{currentColor.R:X2}{currentColor.G:X2}{currentColor.B:X2}");
                         }
