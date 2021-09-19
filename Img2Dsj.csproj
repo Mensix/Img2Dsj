@@ -5,11 +5,14 @@
     <TargetFramework>net5.0</TargetFramework>
     <RuntimeIdentifier>win10-x64</RuntimeIdentifier>
     <LangVersion>9.0</LangVersion>
-    <TrimMode>Link</TrimMode>
-    <PublishSingleFile>true</PublishSingleFile>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
     <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>CopyUsed</TrimMode>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>true</SelfContained>
     <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
-    <DebugType>portable</DebugType>
+    <DebugType>None</DebugType>
     <DebugSymbols>false</DebugSymbols>
     <ApplicationIcon>favicon.ico</ApplicationIcon>
   </PropertyGroup>

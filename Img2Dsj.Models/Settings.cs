@@ -8,7 +8,9 @@ namespace Img2Dsj.Models
         public double PixelSize { get; set; } = 0.1;
         public int ScalingFactor { get; set; } = 5;
         public OriginDistance OriginDistance { get; set; }
+        [JsonPropertyName("ignoreColors")]
         public string[] ColorsToIgnore { get; set; }
+        [JsonPropertyName("includeTags")]
         public string[] TagsToInclude { get; set; }
     }
 

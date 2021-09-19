@@ -14,30 +14,22 @@ namespace Img2Dsj.Utils
         public static void GenerateMarkings(Bitmap bitmap, Settings settings)
         {
             List<List<string>> initialPixels = BitmapUtils.ParsePixels(bitmap, settings);
-            Marking marking = new();
-
-            if (settings.TagsToInclude.Contains("line"))
+            Marking marking = new()
             {
-                marking.Summer = new()
-                {
-                    Lines = new List<Line>()
-                };
-            }
-
-            if (settings.TagsToInclude.Contains("spray"))
-            {
-                marking.Winter = new()
-                {
-                    Sprays = new List<Spray>()
-                };
-            }
-            else if (settings.TagsToInclude.Contains("twigs"))
-            {
-                marking.Winter = new()
-                {
-                    Twigs = new List<Twigs>()
-                };
-            }
+                Summer = settings.TagsToInclude.Contains("line")
+                    ? new()
+                    {
+                        Lines = new List<Line>()
+                    }
+                    : null,
+                Winter = settings.TagsToInclude.Any(x => x == "spray" || x == "twigs")
+                    ? new()
+                    {
+                        Sprays = settings.TagsToInclude.Contains("spray") ? new List<Spray>() : null,
+                        Twigs = settings.TagsToInclude.Contains("twigs") ? new List<Twigs>() : null
+                    }
+                    : null
+            };
 
             XmlWriterSettings xmlWriterSettings = new()
             {
