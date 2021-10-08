@@ -86,5 +86,27 @@ namespace Img2Dsj.Utils
         {
             return (-bitmap.Width / (2 / settings.PixelSize), Math.Abs((bitmap.Height / (2 / settings.PixelSize)) - settings.OriginDistance.X));
         }
+
+        public static Bitmap DrawTextImage(Settings settings)
+        {
+            SizeF textSize;
+            Font font = new(settings.TextToDraw.Font, settings.TextToDraw.Size);
+            using (Image image = new Bitmap(1, 1))
+            using (Graphics graphics = Graphics.FromImage(image))
+            {
+                textSize = graphics.MeasureString(settings.TextToDraw.Text, font);
+            }
+
+            Image _ = new Bitmap((int)textSize.Width, (int)textSize.Height);
+            using (Graphics graphics = Graphics.FromImage(_))
+            {
+                graphics.Clear(Color.Black);
+                using Brush brush = new SolidBrush(ColorTranslator.FromHtml(settings.TextToDraw.Color));
+                graphics.DrawString(settings.TextToDraw.Text, font, brush, 0, 0);
+                graphics.Save();
+            }
+
+            return (Bitmap)_;
+        }
     }
 }

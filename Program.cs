@@ -8,8 +8,14 @@ Settings settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.C
 {
     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
 });
-using (Bitmap initialBitmap = (Bitmap)Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), settings.FileName)))
-using (Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Width / settings.ScalingFactor, initialBitmap.Height / settings.ScalingFactor))
+
+if (settings.FileName != null)
 {
+    using Bitmap initialBitmap = (Bitmap)Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), settings.FileName));
+    using Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Width / settings.ScalingFactor, initialBitmap.Height / settings.ScalingFactor);
     XmlUtils.GenerateMarkings(bitmap, settings);
+}
+else if (settings.TextToDraw != null)
+{
+    XmlUtils.GenerateMarkings(BitmapUtils.DrawTextImage(settings), settings);
 }
