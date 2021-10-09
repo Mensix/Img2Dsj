@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.Linq;
 using Img2Dsj.Models;
 
@@ -87,10 +88,21 @@ namespace Img2Dsj.Utils
             return (-bitmap.Width / (2 / settings.PixelSize), Math.Abs((bitmap.Height / (2 / settings.PixelSize)) - settings.OriginDistance.X));
         }
 
+        private static FontStyle MapFontStyle(this Settings settings)
+        {
+            return settings.TextToDraw.Style switch
+            {
+                "bold" => FontStyle.Bold,
+                "italic" => FontStyle.Italic,
+                "strikeout" => FontStyle.Strikeout,
+                "underline" => FontStyle.Underline,
+                _ => FontStyle.Regular,
+            };
+        }
         public static Bitmap DrawTextImage(Settings settings)
         {
             SizeF textSize;
-            Font font = new(settings.TextToDraw.Font, settings.TextToDraw.Size);
+            Font font = new(settings.TextToDraw.Font, settings.TextToDraw.Size, settings.MapFontStyle());
             using (Image image = new Bitmap(1, 1))
             using (Graphics graphics = Graphics.FromImage(image))
             {
@@ -102,6 +114,7 @@ namespace Img2Dsj.Utils
             {
                 graphics.Clear(Color.Black);
                 using Brush brush = new SolidBrush(ColorTranslator.FromHtml(settings.TextToDraw.Color));
+                graphics.TextRenderingHint = TextRenderingHint.AntiAlias;
                 graphics.DrawString(settings.TextToDraw.Text, font, brush, 0, 0);
                 graphics.Save();
             }

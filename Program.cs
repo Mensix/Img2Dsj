@@ -17,5 +17,7 @@ if (settings.FileName != null)
 }
 else if (settings.TextToDraw != null)
 {
-    XmlUtils.GenerateMarkings(BitmapUtils.DrawTextImage(settings), settings);
+    using Bitmap initialBitmap = BitmapUtils.DrawTextImage(settings);
+    using Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Width / settings.ScalingFactor, initialBitmap.Height / settings.ScalingFactor);
+    XmlUtils.GenerateMarkings(bitmap, settings);
 }

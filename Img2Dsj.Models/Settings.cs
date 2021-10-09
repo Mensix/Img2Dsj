@@ -22,6 +22,7 @@ namespace Img2Dsj.Models
         public string Font { get; set; }
         public string Color { get; set; }
         public int Size { get; set; }
+        public string Style { get; set; }
     }
 
     public class OriginDistance
