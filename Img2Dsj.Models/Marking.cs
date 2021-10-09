@@ -3,6 +3,24 @@ using System.Xml.Serialization;
 
 namespace Img2Dsj.Models
 {
+    public class Banner
+    {
+        [XmlAttribute("d1")]
+        public double D1 { get; set; }
+        [XmlAttribute("d2")]
+        public double D2 { get; set; }
+        [XmlAttribute("z1")]
+        public double Z1 { get; set; }
+        [XmlAttribute("z2")]
+        public double Z2 { get; set; }
+        [XmlAttribute("c")]
+        public string C { get; set; }
+        [XmlAttribute("w")]
+        public double W { get; set; }
+        [XmlAttribute("side")]
+        public string Side { get; set; } = "custom";
+    }
+
     public class Line
     {
         [XmlAttribute("d")]
@@ -32,6 +50,8 @@ namespace Img2Dsj.Models
     [XmlRoot("summer")]
     public class Summer
     {
+        [XmlElement("banner")]
+        public List<Banner> Banners { get; set; }
         [XmlElement("line")]
         public List<Line> Lines { get; set; }
     }

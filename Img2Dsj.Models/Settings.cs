@@ -14,6 +14,8 @@ namespace Img2Dsj.Models
         public string[] ColorsToIgnore { get; set; }
         [JsonPropertyName("includeTags")]
         public string[] TagsToInclude { get; set; }
+        [JsonPropertyName("useColor")]
+        public string ColorToUse { get; set; }
     }
 
     public class TextSettings

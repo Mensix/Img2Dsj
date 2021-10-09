@@ -65,7 +65,7 @@ namespace Img2Dsj.Utils
             return initialPixels;
         }
 
-        public static List<List<string>> ParseMonocolorPixels(List<List<string>> initialPixels)
+        public static List<List<string>> ParseMonocolorPixels(List<List<string>> initialPixels, Settings settings)
         {
             List<List<string>> monocolorPixels = new();
             foreach (List<string> pixels in initialPixels)
@@ -74,7 +74,7 @@ namespace Img2Dsj.Utils
                 {
                     if (x != null)
                     {
-                        x = "0x000000";
+                        x = settings.ColorToUse ?? "0x000000";
                     }
                     return x;
                 }));
