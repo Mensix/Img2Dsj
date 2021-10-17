@@ -8,7 +8,7 @@ namespace Img2Dsj.Models
         [JsonPropertyName("drawText")]
         public TextSettings TextToDraw { get; set; }
         public double PixelSize { get; set; } = 0.1;
-        public int ScalingFactor { get; set; } = 5;
+        public double ScalingFactor { get; set; } = 5;
         public OriginDistance OriginDistance { get; set; }
         [JsonPropertyName("ignoreColors")]
         public string[] ColorsToIgnore { get; set; }

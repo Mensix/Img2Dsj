@@ -11,10 +11,13 @@ namespace Img2Dsj.Utils
 {
     public static class BitmapUtils
     {
-        public static Bitmap ResizeImage(Image image, int width, int height)
+        public static Bitmap ResizeImage(Image image, double width, double height)
         {
-            Rectangle rectangle = new(0, 0, width, height);
-            Bitmap bitmap = new(width, height);
+            int fixedWidth = Convert.ToInt32(width);
+            int fixedHeight = Convert.ToInt32(height);
+
+            Rectangle rectangle = new(0, 0, fixedWidth, fixedHeight);
+            Bitmap bitmap = new(fixedWidth, fixedHeight);
             bitmap.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
             using (Graphics graphics = Graphics.FromImage(bitmap))

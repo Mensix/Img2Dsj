@@ -58,10 +58,10 @@ namespace Img2Dsj.Utils
                     {
                         marking.Summer.Banners.Add(new Banner
                         {
-                            D1 = Math.Round(y0, 2),
-                            D2 = Math.Round(y0 + settings.PixelSize, 2),
-                            Z1 = Math.Round(x0, 2),
-                            Z2 = Math.Round(x0 + (settings.PixelSize * pixelsToUse[i][j].Count), 2),
+                            D1 = Math.Round(y0, 3, MidpointRounding.ToZero),
+                            D2 = Math.Round(y0 + settings.PixelSize, 3, MidpointRounding.ToZero),
+                            Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
+                            Z2 = Math.Round(x0 + (settings.PixelSize * pixelsToUse[i][j].Count), 3, MidpointRounding.ToZero),
                             C = pixelsToUse[i][j][0],
                             W = settings.PixelSize
                         });
@@ -70,9 +70,9 @@ namespace Img2Dsj.Utils
                     {
                         marking.Summer.Lines.Add(new Line
                         {
-                            D = Math.Round(y0, 2),
-                            Z1 = Math.Round(x0, 2),
-                            Z2 = Math.Round(x0 + (settings.PixelSize * pixelsToUse[i][j].Count), 2),
+                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                            Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
+                            Z2 = Math.Round(x0 + (settings.PixelSize * pixelsToUse[i][j].Count), 3, MidpointRounding.ToZero),
                             C = pixelsToUse[i][j][0],
                             W = settings.PixelSize
                         });
@@ -81,20 +81,20 @@ namespace Img2Dsj.Utils
                     {
                         marking.Winter.Sprays.Add(new Spray
                         {
-                            D = Math.Round(y0, 2),
-                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
-                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixelsToUse[i][j].Count), 2),
+                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
+                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixelsToUse[i][j].Count), 3, MidpointRounding.ToZero),
                             C = pixelsToUse[i][j][0],
-                            W = Math.Round(settings.PixelSize * 3, 2)
+                            W = Math.Round(settings.PixelSize * 3, 3, MidpointRounding.ToZero)
                         });
                     }
                     if (settings.TagsToInclude.Contains("twigs"))
                     {
                         marking.Winter.Twigs.Add(new Twigs
                         {
-                            D = Math.Round(y0, 2),
-                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 2),
-                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixelsToUse[i][j].Count), 2),
+                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
+                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixelsToUse[i][j].Count), 3, MidpointRounding.ToZero),
                         });
                     }
                     x0 += settings.PixelSize * pixelsToUse[i][j].Count;
