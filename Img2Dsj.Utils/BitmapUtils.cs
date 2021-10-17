@@ -46,7 +46,7 @@ namespace Img2Dsj.Utils
                 initialPixels.Add(new List<string>());
                 for (int y = 0; y < bitmap.Width; y++)
                 {
-                    Color currentColor = bitmap.GetPixel(y, x);
+                    Color currentColor = Color.FromArgb(255, bitmap.GetPixel(y, x));
                     if (colorsToIgnore != default)
                     {
                         if (!colorsToIgnore.Select(x => x.ToArgb()).Any(x => x.Equals(currentColor.ToArgb())))
