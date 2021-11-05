@@ -395,6 +395,6 @@ FodyWeavers.xsd
 
 .vscode
 settings.json
-output.txt
+output.xml
 *.jpg
 *.png

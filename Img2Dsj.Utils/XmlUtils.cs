@@ -104,7 +104,7 @@ namespace Img2Dsj.Utils
                 y0 += settings.PixelSize;
             }
 
-            using StreamWriter streamWriter = new("output.txt");
+            using StreamWriter streamWriter = new("output.xml");
             using XmlWriter xmlWriter = XmlWriter.Create(streamWriter, xmlWriterSettings);
             xmlSerializer.Serialize(streamWriter, marking, xmlSerializerNamespaces);
         }

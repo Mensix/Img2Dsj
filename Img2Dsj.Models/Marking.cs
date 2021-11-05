@@ -45,6 +45,8 @@ namespace Img2Dsj.Models
         public double Z1 { get; set; }
         [XmlAttribute("z2")]
         public double Z2 { get; set; }
+        [XmlAttribute("forcedetailed")]
+        public bool ForceDetailed = true;
     }
 
     [XmlRoot("summer")]
