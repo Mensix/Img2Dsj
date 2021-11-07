@@ -1,13 +1,19 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Text.Json;
 using Img2Dsj.Models;
 using Img2Dsj.Utils;
 
-Settings settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "settings.json")), new()
+Settings settings = new();
+try
 {
-    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-});
+    settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "settings.json")), new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+}
+catch (JsonException e)
+{
+    Console.WriteLine($"Invalid settings.json file: {e.Message}");
+}
 
 if (settings.FileName != null)
 {
