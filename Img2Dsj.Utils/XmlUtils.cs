@@ -1,19 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
 using Img2Dsj.Models;
+using SkiaSharp;
 
 namespace Img2Dsj.Utils
 {
     public static class XmlUtils
     {
-        public static void GenerateMarkings(Bitmap bitmap, Settings settings)
+        public static void GenerateMarkings(SKBitmap bitmap, Settings settings)
         {
-            XmlWriterSettings xmlWriterSettings = new() { OmitXmlDeclaration = true };
+            XmlWriterSettings xmlWriterSettings = new() { OmitXmlDeclaration = true, Indent = true };
             XmlSerializerNamespaces xmlSerializerNamespaces = new(new[] { XmlQualifiedName.Empty });
             XmlSerializer xmlSerializer = new(typeof(Marking));
 
@@ -30,8 +26,8 @@ namespace Img2Dsj.Utils
                 Winter = settings.TagsToInclude.Any(x => x is "spray" or "twigs")
                     ? new()
                     {
-                        Sprays = settings.TagsToInclude.Contains("spray") ? new List<Spray>() : null,
-                        Twigs = settings.TagsToInclude.Contains("twigs") ? new List<Twigs>() : null
+                        Sprays = new List<Spray>(),
+                        Twigs = new List<Twigs>()
                     }
                     : null
             };
@@ -41,7 +37,7 @@ namespace Img2Dsj.Utils
 
             if (settings.TagsToInclude.Contains("twigs"))
             {
-                List<List<List<string>>> monocoloredPixels = BitmapUtils.ParseMonocolorPixels(initialPixels, settings).MergeSamePixels();
+                List<List<List<string>>> monocoloredPixels = initialPixels.ToMonocolorPixels(settings).MergeSamePixels();
                 for (int i = 0; i < monocoloredPixels.Count; i++)
                 {
                     for (int j = 0; j < monocoloredPixels[i].Count; j++)
@@ -71,6 +67,12 @@ namespace Img2Dsj.Utils
                 {
                     for (int j = 0; j < pixels[i].Count; j++)
                     {
+                        if (pixels[i][j].All(x => x == null))
+                        {
+                            x0 += settings.PixelSize * pixels[i][j].Count;
+                            continue;
+                        }
+
                         if (settings.TagsToInclude.Contains("banner"))
                         {
                             marking.Summer.Banners.Add(new Banner
@@ -105,7 +107,12 @@ namespace Img2Dsj.Utils
                                 W = Math.Round(settings.PixelSize * 3, 3, MidpointRounding.ToZero)
                             });
                         }
+
+                        x0 += settings.PixelSize * pixels[i][j].Count;
                     }
+
+                    x0 = (-bitmap.Width / (2 / settings.PixelSize)) + settings.OriginDistance.Z;
+                    y0 += settings.PixelSize;
                 }
             }
 

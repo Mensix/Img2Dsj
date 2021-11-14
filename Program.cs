@@ -1,14 +1,12 @@
-﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using Img2Dsj.Models;
 using Img2Dsj.Utils;
+using SkiaSharp;
 
 Settings settings = new();
 try
 {
-    settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "settings.json")), new() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
+    settings = JsonSerializer.Deserialize<Settings>(File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "settings.json")), new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
 }
 catch (JsonException e)
 {
@@ -17,13 +15,6 @@ catch (JsonException e)
 
 if (settings.FileName != null)
 {
-    using Bitmap initialBitmap = (Bitmap)Image.FromFile(Path.Combine(Directory.GetCurrentDirectory(), settings.FileName));
-    using Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Width / settings.ScalingFactor, initialBitmap.Height / settings.ScalingFactor);
-    XmlUtils.GenerateMarkings(bitmap, settings);
-}
-else if (settings.TextToDraw != null)
-{
-    using Bitmap initialBitmap = BitmapUtils.DrawTextImage(settings);
-    using Bitmap bitmap = BitmapUtils.ResizeImage(initialBitmap, initialBitmap.Width / settings.ScalingFactor, initialBitmap.Height / settings.ScalingFactor);
-    XmlUtils.GenerateMarkings(bitmap, settings);
+    using SKBitmap _ = SKBitmap.Decode(settings.FileName);
+    XmlUtils.GenerateMarkings(_, settings);
 }
