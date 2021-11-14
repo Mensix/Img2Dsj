@@ -13,8 +13,10 @@ catch (JsonException e)
     Console.WriteLine($"Invalid settings.json file: {e.Message}");
 }
 
-if (settings.FileName != null)
+BitmapUtils.DrawText(settings);
+if (settings.TextToDraw != null)
 {
-    using SKBitmap _ = SKBitmap.Decode(settings.FileName);
-    XmlUtils.GenerateMarkings(_, settings);
+    BitmapUtils.DrawText(settings);
 }
+using SKBitmap _ = SKBitmap.Decode(settings.TextToDraw != null ? "generated.png" : settings.FileName);
+XmlUtils.GenerateMarkings(_, settings);

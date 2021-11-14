@@ -34,10 +34,10 @@ namespace Img2Dsj.Utils
 
             (double x0, double y0) = BitmapUtils.GetOriginCoordinates(bitmap, settings);
             List<List<List<string>>> pixels = initialPixels.MergeSamePixels();
+            List<List<List<string>>> monocoloredPixels = initialPixels.ToMonocolorPixels(settings).MergeSamePixels();
 
             if (settings.TagsToInclude.Contains("twigs"))
             {
-                List<List<List<string>>> monocoloredPixels = initialPixels.ToMonocolorPixels(settings).MergeSamePixels();
                 for (int i = 0; i < monocoloredPixels.Count; i++)
                 {
                     for (int j = 0; j < monocoloredPixels[i].Count; j++)
@@ -63,6 +63,11 @@ namespace Img2Dsj.Utils
             }
             if (settings.TagsToInclude.Any(x => x is "banner" or "spray" or "line"))
             {
+                if (settings.ColorToUse != null)
+                {
+                    pixels = monocoloredPixels;
+                }
+
                 for (int i = 0; i < pixels.Count; i++)
                 {
                     for (int j = 0; j < pixels[i].Count; j++)

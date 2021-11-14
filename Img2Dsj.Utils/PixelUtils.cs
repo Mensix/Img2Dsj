@@ -24,7 +24,7 @@ namespace Img2Dsj.Utils
                 {
                     if (x != null)
                     {
-                        x = settings.ColorToUse ?? "0x000000";
+                        x = settings.ColorToUse?.Replace("#", "0x") ?? "0x000000";
                     }
                     return x;
                 }));

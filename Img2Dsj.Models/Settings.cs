@@ -6,7 +6,7 @@ namespace Img2Dsj.Models
     {
         public string FileName { get; set; }
         [JsonPropertyName("drawText")]
-        public TextSettings TextToDraw { get; set; }
+        public TextSettings[] TextToDraw { get; set; }
         public double PixelSize { get; set; } = 0.1;
         public double ScalingFactor { get; set; } = 5;
         public OriginDistance OriginDistance { get; set; }
@@ -24,7 +24,9 @@ namespace Img2Dsj.Models
         public string Font { get; set; }
         public string Color { get; set; }
         public int Size { get; set; }
+        public int Weight { get; set; }
         public string Style { get; set; }
+        public int Spacing { get; set; }
     }
 
     public class OriginDistance

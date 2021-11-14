@@ -5,8 +5,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="HarfBuzzSharp.NativeAssets.Linux" Version="2.6.1.8" />
     <PackageReference Include="MoreLinq" Version="3.3.2" />
     <PackageReference Include="SkiaSharp" Version="2.80.3" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.80.3" />
+    <PackageReference Include="Topten.RichTextKit" Version="0.4.148" />
   </ItemGroup>
 </Project>
