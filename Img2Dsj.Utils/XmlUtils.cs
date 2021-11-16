@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
 using Img2Dsj.Models;
@@ -9,7 +10,13 @@ namespace Img2Dsj.Utils
     {
         public static void GenerateMarkings(SKBitmap bitmap, Settings settings)
         {
-            XmlWriterSettings xmlWriterSettings = new() { OmitXmlDeclaration = true, Indent = true };
+            XmlWriterSettings xmlWriterSettings = new()
+            {
+                OmitXmlDeclaration = true,
+                Indent = true,
+                NewLineChars = "\r\n",
+                NewLineHandling = NewLineHandling.Replace
+            };
             XmlSerializerNamespaces xmlSerializerNamespaces = new(new[] { XmlQualifiedName.Empty });
             XmlSerializer xmlSerializer = new(typeof(Marking));
 
