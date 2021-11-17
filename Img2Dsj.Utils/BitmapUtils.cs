@@ -9,11 +9,16 @@ namespace Img2Dsj.Utils
         public static void DrawText(Settings settings)
         {
             RichString richString = new();
-            TextAlignment defaultTextAlignment = settings.TextToDraw.Any(x => x.Text.Contains('\n')) || settings.TextToDraw.Length > 1 ? TextAlignment.Center : TextAlignment.Auto;
             foreach (TextSettings textSettings in settings.TextToDraw)
             {
                 richString
-                     .Alignment(defaultTextAlignment)
+                     .Alignment(textSettings.Alignment == "right"
+                         ? TextAlignment.Right
+                         : textSettings.Alignment == "left"
+                             ? TextAlignment.Left
+                             : textSettings.Alignment == "center"
+                                 ? TextAlignment.Center
+                                 : TextAlignment.Auto)
                      .FontFamily(textSettings.Font)
                      .FontItalic(textSettings.Style == "italic")
                      .FontSize(textSettings.Size)

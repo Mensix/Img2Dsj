@@ -20,13 +20,14 @@ namespace Img2Dsj.Models
 
     public class TextSettings
     {
-        public string Text { get; set; }
-        public string Font { get; set; }
-        public string Color { get; set; }
         public int Size { get; set; }
-        public int Weight { get; set; }
-        public string Style { get; set; }
         public int Spacing { get; set; }
+        public int Weight { get; set; } = 400;
+        public string Alignment { get; set; } = "left";
+        public string Color { get; set; } = "#000000";
+        public string Font { get; set; }
+        public string Style { get; set; } = "regular";
+        public string Text { get; set; }
     }
 
     public class OriginDistance
