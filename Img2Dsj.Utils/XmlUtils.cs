@@ -1,4 +1,3 @@
-using System.Diagnostics.CodeAnalysis;
 using System.Xml;
 using System.Xml.Serialization;
 using Img2Dsj.Models;

@@ -46,7 +46,7 @@ namespace Img2Dsj.Utils
             List<List<string>> pixels = new();
             using (SKBitmap _ = SKBitmap.Decode(settings.TextToDraw != null ? "generated.png" : settings.FileName))
             {
-                pixels = bitmap.Pixels.Select(x => settings.ColorsToIgnore?.Any(y => x.WithAlpha(255).ToString() == y) == true || x.Alpha == 0 ? null : x.ToString().Replace("#", "0x")[0..^2]).Chunk(bitmap.Width).Select(x => x.ToList()).ToList();
+                pixels = bitmap.Pixels.Select(x => settings.ColorsToIgnore?.Any(y => x.WithAlpha(255).ToString() == y) == true || x.Alpha == 0 ? null : $"0x{x.ToString()[1..].ToUpper()}").Chunk(bitmap.Width).Select(x => x.ToList()).ToList();
             }
 
             return pixels;
