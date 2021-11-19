@@ -59,6 +59,8 @@ namespace Img2Dsj.Utils
                             D = Math.Round(y0, 3, MidpointRounding.ToZero),
                             Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
                             Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * monocoloredPixels[i][j].Count), 3, MidpointRounding.ToZero),
+                            Size = settings.PixelSize,
+                            Space = settings.PixelSize
                         });
                         x0 += settings.PixelSize * monocoloredPixels[i][j].Count;
                     }
@@ -127,9 +129,9 @@ namespace Img2Dsj.Utils
                 }
             }
 
-            using StreamWriter streamWriter = new("output.xml");
-            using XmlWriter xmlWriter = XmlWriter.Create(streamWriter, xmlWriterSettings);
-            xmlSerializer.Serialize(streamWriter, marking, xmlSerializerNamespaces);
+            TextWriter textWriter = new StreamWriter("output.xml");
+            xmlSerializer.Serialize(textWriter, marking, xmlSerializerNamespaces);
+            textWriter.Close();
         }
     }
 }

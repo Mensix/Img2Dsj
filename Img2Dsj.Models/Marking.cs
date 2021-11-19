@@ -44,8 +44,10 @@ namespace Img2Dsj.Models
         public double Z1 { get; set; }
         [XmlAttribute("z2")]
         public double Z2 { get; set; }
-        [XmlAttribute("forcedetailed")]
-        public bool ForceDetailed = true;
+        [XmlAttribute("size")]
+        public double Size { get; set; }
+        [XmlAttribute("space")]
+        public double Space { get; set; }
     }
 
     [XmlRoot("summer")]
