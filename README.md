@@ -7,7 +7,7 @@ The program which generates Deluxe Ski Jump 4 v1.10.0 XML file from input image 
 You need settings.json file, the model can be found in Img2Dsj.Models folder in Settings.cs folder.
 
 Example:
-```json
+```jsonc
 {
   "drawText": [ // Draw white text Webdings with font Webdings and size set to 72
     {
