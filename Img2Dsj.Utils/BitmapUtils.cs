@@ -11,22 +11,22 @@ public static class BitmapUtils
         foreach (TextSettings textSettings in settings.TextToDraw)
         {
             richString
-                 .Alignment(textSettings.Alignment == "right"
-                     ? TextAlignment.Right
-                     : textSettings.Alignment == "left"
-                         ? TextAlignment.Left
-                         : textSettings.Alignment == "center"
-                             ? TextAlignment.Center
-                             : TextAlignment.Auto)
-                 .FontFamily(textSettings.Font)
-                 .FontItalic(textSettings.Style == "italic")
-                 .FontSize(textSettings.Size)
-                 .FontWeight(textSettings.Weight)
-                 .LetterSpacing(textSettings.Spacing)
-                 .StrikeThrough(textSettings.Style == "strikethrough" ? StrikeThroughStyle.Solid : StrikeThroughStyle.None)
-                 .TextColor(SKColor.TryParse(textSettings.Color, out SKColor color) ? color : SKColor.Parse("#00000000"))
-                 .Underline(textSettings.Style == "underline" ? UnderlineStyle.Solid : UnderlineStyle.None)
-                 .Add(textSettings.Text);
+                .Alignment(textSettings.Alignment == "right"
+                    ? TextAlignment.Right
+                    : textSettings.Alignment == "left"
+                        ? TextAlignment.Left
+                        : textSettings.Alignment == "center"
+                            ? TextAlignment.Center
+                            : TextAlignment.Auto)
+                .FontFamily(textSettings.Font)
+                .FontItalic(textSettings.Style == "italic")
+                .FontSize(textSettings.Size)
+                .FontWeight(textSettings.Weight)
+                .LetterSpacing(textSettings.Spacing)
+                .StrikeThrough(textSettings.Style == "strikethrough" ? StrikeThroughStyle.Solid : StrikeThroughStyle.None)
+                .TextColor(SKColor.TryParse(textSettings.Color, out SKColor color) ? color : SKColor.Parse("#00000000"))
+                .Underline(textSettings.Style == "underline" ? UnderlineStyle.Solid : UnderlineStyle.None)
+                .Add(textSettings.Text);
         }
         SKImageInfo imageInfo = new(Convert.ToInt32(richString.MeasuredWidth), Convert.ToInt32(richString.MeasuredHeight));
 
@@ -45,7 +45,7 @@ public static class BitmapUtils
         List<List<string>> pixels = new();
         using (SKBitmap _ = SKBitmap.Decode(settings.TextToDraw != null ? "generated.png" : settings.FileName))
         {
-            pixels = bitmap.Pixels.Select(x => settings.ColorsToIgnore?.Any(y => x.WithAlpha(255).ToString() == y) == true || x.Alpha == 0 ? null : $"0x{x.ToString()[1..].ToUpper()}").Chunk(bitmap.Width).Select(x => x.ToList()).ToList();
+            pixels = _.Pixels.Select(x => settings.ColorsToIgnore?.Any(y => string.Equals(x.WithAlpha(255).ToString(), y, StringComparison.OrdinalIgnoreCase)) == true ? null : $"0x{x.ToString()[1..].ToUpper()}").Chunk(bitmap.Width).Select(x => x.ToList()).ToList();
         }
 
         return pixels;

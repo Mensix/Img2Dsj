@@ -54,13 +54,13 @@ public static class XmlUtils
                     }
 
                     marking.Winter.Twigs.Add(new Twigs
-                    {
-                        D = Math.Round(y0, 3, MidpointRounding.ToZero),
-                        Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
-                        Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * monocoloredPixels[i][j].Count), 3, MidpointRounding.ToZero),
-                        Size = settings.PixelSize,
-                        Space = settings.PixelSize
-                    });
+                        {
+                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
+                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * monocoloredPixels[i][j].Count), 3, MidpointRounding.ToZero),
+                            Size = settings.PixelSize,
+                            Space = settings.PixelSize
+                        });
                     x0 += settings.PixelSize * monocoloredPixels[i][j].Count;
                 }
 
@@ -88,36 +88,36 @@ public static class XmlUtils
                     if (settings.TagsToInclude.Contains("banner"))
                     {
                         marking.Summer.Banners.Add(new Banner
-                        {
-                            D1 = Math.Round(y0, 3, MidpointRounding.ToZero),
-                            D2 = Math.Round(y0 + settings.PixelSize, 3, MidpointRounding.ToZero),
-                            Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
-                            Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
-                            C = pixels[i][j][0],
-                            W = settings.PixelSize
-                        });
+                            {
+                                D1 = Math.Round(y0, 3, MidpointRounding.ToZero),
+                                D2 = Math.Round(y0 + settings.PixelSize, 3, MidpointRounding.ToZero),
+                                Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
+                                Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
+                                C = pixels[i][j][0],
+                                W = settings.PixelSize
+                            });
                     }
                     if (settings.TagsToInclude.Contains("line"))
                     {
                         marking.Summer.Lines.Add(new Line
-                        {
-                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
-                            Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
-                            Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
-                            C = pixels[i][j][0],
-                            W = settings.PixelSize
-                        });
+                            {
+                                D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                                Z1 = Math.Round(x0, 3, MidpointRounding.ToZero),
+                                Z2 = Math.Round(x0 + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
+                                C = pixels[i][j][0],
+                                W = settings.PixelSize
+                            });
                     }
                     if (settings.TagsToInclude.Contains("spray"))
                     {
                         marking.Winter.Sprays.Add(new Spray
-                        {
-                            D = Math.Round(y0, 3, MidpointRounding.ToZero),
-                            Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
-                            Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
-                            C = pixels[i][j][0],
-                            W = Math.Round(settings.PixelSize * 3, 3, MidpointRounding.ToZero)
-                        });
+                            {
+                                D = Math.Round(y0, 3, MidpointRounding.ToZero),
+                                Z1 = Math.Round(x0 + settings.OriginDistance.Z, 3, MidpointRounding.ToZero),
+                                Z2 = Math.Round(x0 + settings.OriginDistance.Z + (settings.PixelSize * pixels[i][j].Count), 3, MidpointRounding.ToZero),
+                                C = pixels[i][j][0],
+                                W = Math.Round(settings.PixelSize * 3, 3, MidpointRounding.ToZero)
+                            });
                     }
 
                     x0 += settings.PixelSize * pixels[i][j].Count;

@@ -30,3 +30,6 @@ if (settings.TextToDraw != null)
 {
     File.Delete("generated.png");
 }
+
+Console.WriteLine("output.xml succesfully generated");
+Console.ReadKey();
